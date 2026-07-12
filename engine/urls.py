@@ -2,8 +2,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("stories/", views.story_list_create),
+    # Stories
+    path("stories/", views.stories),
     path("stories/<int:pk>/", views.story_detail),
-    path("stories/<int:pk>/nodes/", views.story_nodes_create),
-    path("nodes/<int:pk>/choices/", views.node_choices_create),
+
+    # Story -> Nodes
+    path("stories/<int:pk>/nodes/", views.story_nodes),
+
+    # Nodes
+    path("nodes/<int:pk>/", views.node_detail),
+
+    # Node -> Choices
+    path("nodes/<int:pk>/choices/", views.node_choices),
+
+    # Choices
+    path("choices/<int:pk>/", views.choice_detail),
 ]

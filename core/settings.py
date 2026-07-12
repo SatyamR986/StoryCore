@@ -75,6 +75,13 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SPECTACULAR_SETTINGS = {
+    "TITLE": "StoryCore API",
+    "DESCRIPTION": "Interactive Story Engine API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
