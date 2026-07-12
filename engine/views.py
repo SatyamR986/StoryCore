@@ -36,11 +36,18 @@ def story_detail(request, pk):
     return Response(serializer.data)
 
 @api_view(["GET"])
-def node_detail(request, pk):
+def story_nodes(request, pk):
+    
     try:
-        node = Node.objects.get(pk=pk)
-    except Node.DoesNotExist:
+        story = Story.objects.get(pk=pk)
+    except Story.DoesNotExist:
         return Response(status=404)
 
-    serializer = NodeSerializer(node)
-    return Response(serializer.data)
+    try:
+        node = Node.objects.all()
+    except Node.DoesNotExist:
+        return Response(status=404) 
+
+    serializer = NodeSerializer(story.nodes.all(), many=True)
+    return Response(serializer.data)    
+
