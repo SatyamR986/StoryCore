@@ -4,6 +4,15 @@ from django.db import models
 class Story(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+
+    starting_node = models.ForeignKey(
+        "Node",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
