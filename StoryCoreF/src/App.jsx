@@ -1,4 +1,3 @@
-import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import PlayHome from './pages/PlayHome'
@@ -10,7 +9,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/play" element={<PlayHome />} />
+        {/* <Route path='/play/:storyId' element={} /> */}
+
         <Route path="/create" element={<CreateHome />} />
+        {/* <Route path="/create/:storyId" element={} /> */}
+
       </Routes>
     </BrowserRouter>
   )

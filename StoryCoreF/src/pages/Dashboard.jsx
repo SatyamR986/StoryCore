@@ -1,10 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+
+  const navigate = useNavigate();
+
+  function handleplay(){
+    navigate('/play');
+  }
+
+  function handlecreate(){
+    navigate('/create');
+  }
+
   return (
     <main style={{padding: '2rem'}}>
-        <button onClick={() => window.location.href = '/play'}>Play</button>
-        <button onClick={() => window.location.href = '/create'}>Create</button>
+        <button onClick={() => handleplay()}>Play</button>
+        <button onClick={() => handlecreate()}>Create</button>
     </main>
   )
 }
