@@ -1,68 +1,65 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
+import { getStories } from "../api/storyApi";
+import StoryCard from "../components/play/StoryCard";
 
 export default function PlayHome() {
-  const [stories, setStories] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    let mounted = true
-
     async function fetchStories() {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/v1/stories/')
-        if (!mounted) return
-
-        if (!res.ok) {
-          setError(`HTTP ${res.status} ${res.statusText}`)
-          return
-        }
-
-        const contentType = res.headers.get('content-type') || ''
-        if (contentType.includes('application/json')) {
-          const json = await res.json()
-          setStories(json)
-        } else {
-          // No JSON body
-          setStories(null)
-        }
+        const data = await getStories();
+        setStories(data);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchStories()
-    return () => {
-      mounted = false
-    }
-  }, [])
+    fetchStories();
+  }, []);
 
   return (
-    <main style={{ padding: '2rem' }}>
-      <h1>Play Home</h1>
+    <main className="min-h-screen bg-zinc-950 text-white">
+      <div className="mx-auto max-w-5xl px-6 py-12">
 
-      {loading && <p>Loading stories…</p>}
-      {error && (
-        <p style={{ color: 'crimson' }}>Error fetching stories: {error}</p>
-      )}
+        <header className="mb-12">
+          <h1 className="text-5xl font-bold tracking-tight">
+            StoryCore
+          </h1>
 
-      {!loading && !error && (
-        <section>
-          {stories === null ? (
-            <p>No JSON response body from the API.</p>
-          ) : Array.isArray(stories) ? (
-            <ul>
-              {stories.map((s, i) => (
-                <li key={s.id ?? i}>{s.title ?? JSON.stringify(s)}</li>
-              ))}
-            </ul>
-          ) : (
-            <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(stories, null, 2)}</pre>
-          )}
-        </section>
-      )}
+          <p className="mt-3 text-lg text-zinc-400">
+            Choose your next adventure.
+          </p>
+        </header>
+
+        {loading && (
+          <p className="text-zinc-400">
+            Loading stories...
+          </p>
+        )}
+
+        {error && (
+          <p className="text-red-400">
+            {error}
+          </p>
+        )}
+
+        {!loading && !error && (
+          <div className="space-y-6">
+            {stories.map((story) => (
+              <StoryCard
+                key={story.id}
+                story={story}
+              />
+            ))}
+          </div>
+        )}
+
+      </div>
     </main>
-  )
+  );
 }
